@@ -15,6 +15,7 @@ import { UserdataService } from './userdata.service';
 import { AuthGuard } from './auth.guard';
 
 import {routing, routedComponents} from './app.routes';
+import { AddComponent } from './dashboard/add/add.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCtgHfPbBh37bGoUIJoUHAVJhwaVLd4TNc',
@@ -28,6 +29,7 @@ const firebaseConfig = {
   declarations: [
     AppComponent,
     routedComponents,
+    AddComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,39 @@
+.removecity {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: white;
+}
+
+.weather-card:first-child {
+  margin-top: 50px;
+}
+
+/*TODO: Fix this */
+.weather-card:last-child {
+  margin-bottom: 50px;
+}
+
+.weather-card {
+  color: #121738;
+  text-align: left;
+  margin-bottom: 10px;
+  background: #D17C78;
+  transition-duration: 0.2s;
+  cursor: pointer;
+}
+
+
+.weather-card:hover {
+  background: #c04b45;
+  transition-duration: 0.2s;
+}
+
+
+.weather-card h2 {
+  color: #121738;
+}
+
+.weather-card .mat-card-content {
+  margin-bottom: 0 !important;
+}
