@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
+import { Http } from '@angular/http';
 
 const GEOLOCATION_ERRORS = {
 	'errors.location.unsupportedBrowser': 'Browser does not support location services',
@@ -10,10 +11,10 @@ const GEOLOCATION_ERRORS = {
 
 @Injectable()
 export class GeolocationService {
-  
-  constructor() {}
 
-	getLocation(opts): Observable<any> {
+  constructor(public http: Http) {}
+
+	getCoords(opts): Observable<any> {
 		return Observable.create(observer => {
 			if (window.navigator && window.navigator.geolocation) {
 				window.navigator.geolocation.getCurrentPosition(
@@ -41,4 +42,13 @@ export class GeolocationService {
 			}
 		});
 	}
+
+  getLocation(lat, long) {
+
+    var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + '%2C' + long + '&language=en';
+
+    this.http.get(GEOCODING).subscribe( city => {
+      console.log(city);
+    })
+  }
 }
