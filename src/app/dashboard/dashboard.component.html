@@ -1,0 +1,11 @@
+<div>
+  <h1>Dashboard</h1>
+  <nav>
+    <button md-raised-button (click)="logout()">
+      Logout
+    </button>
+    <a md-raised-button routerLink=".">Overview</a>
+    <a md-raised-button routerLink="config">Config</a>
+  </nav>
+  <router-outlet></router-outlet>
+</div>
