@@ -16,4 +16,8 @@ export class ConfigComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  setlocation(location) {
+    console.log(location);
+  }
 }

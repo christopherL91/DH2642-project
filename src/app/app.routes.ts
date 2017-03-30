@@ -11,17 +11,17 @@ import { ConfigComponent } from './dashboard/config/config.component';
 import {AuthGuard} from './auth.guard';
 
 const appRoutes: Routes = [
-    { 
-        path: '', 
-        redirectTo: 'login', 
-        pathMatch: 'full' 
+    {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
     },
     {
         path: 'login',
         component: LoginComponent,
     },
-    { 
-        path: 'dashboard', 
+    {
+        path: 'dashboard',
         component: DashboardComponent,
         canActivate: [AuthGuard],
         children: [
@@ -30,14 +30,14 @@ const appRoutes: Routes = [
                 component: OverviewComponent,
             },
             {
-                path: 'config',
+                path: 'new',
                 component: ConfigComponent,
             },
         ]
     },
-    { 
-        path: '**', 
-        component: PageNotFoundComponent 
+    {
+        path: '**',
+        component: PageNotFoundComponent
     },
 ];
 

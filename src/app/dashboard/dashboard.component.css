@@ -1,3 +1,11 @@
+.dashboard-container .dashboard-section {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
 .logout-btn {
   position: fixed;
   right: 20px;
@@ -12,4 +20,3 @@
   transition-duration: 0.2s;
   border-bottom: 2px solid #ffffff;
 }
-
