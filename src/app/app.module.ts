@@ -16,6 +16,7 @@ import { AuthGuard } from './auth.guard';
 
 import {routing, routedComponents} from './app.routes';
 import { AddComponent } from './dashboard/add/add.component';
+import { CityComponent } from './dashboard/city/city.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCtgHfPbBh37bGoUIJoUHAVJhwaVLd4TNc',
@@ -30,6 +31,7 @@ const firebaseConfig = {
     AppComponent,
     routedComponents,
     AddComponent,
+    CityComponent,
   ],
   imports: [
     BrowserModule,
