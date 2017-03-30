@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+import { Router } from '@angular/router';
 
 import {AppComponent} from './app.component';
 
@@ -49,4 +50,11 @@ const firebaseConfig = {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor(private router: Router) {
+    router.events.subscribe(
+      path => console.log('ROUTER CHANGE', path),
+    );
+  }
+}

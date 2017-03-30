@@ -15,6 +15,7 @@ export class AuthGuard implements CanActivate {
   
   constructor(private auth: AuthenticationService, private user: UserdataService, private router: Router) {}
 
+  // Only run on browser refresh.
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
@@ -22,7 +23,7 @@ export class AuthGuard implements CanActivate {
       .take(1)
       .map((authState: FirebaseAuthState): Boolean => {
         if(Boolean(authState)) { // Got authentication
-           this.user.data = this.auth.databaseService.object(`/users/${authState.auth.uid}`);
+          this.user.data = this.auth.databaseService.object(`/users/${authState.auth.uid}`);
           return true;
         } else {
           return false;
