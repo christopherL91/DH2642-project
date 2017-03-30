@@ -1,0 +1,21 @@
+.current-location {
+  color: #fff;
+  padding: 50px 0;
+}
+
+.current-location label {
+  opacity: 0.4;
+  font-size: 16px;
+}
+
+.current-location input {
+  font-size: 48px;
+  border-bottom: 5px solid rgba(255,255,255, 0.3);
+  transition-duration: 0.2s;
+  width: 100%;
+}
+
+.current-location input:focus {
+  border-bottom: 5px solid rgba(255,255,255, 1);
+  transition-duration: 0.2s;
+}

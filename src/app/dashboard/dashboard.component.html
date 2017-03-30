@@ -1,11 +1,10 @@
-<div>
-  <h1>Dashboard</h1>
-  <nav>
-    <button md-raised-button (click)="logout()">
-      Logout
-    </button>
-    <a md-raised-button routerLink=".">Overview</a>
-    <a md-raised-button routerLink="config">Config</a>
-  </nav>
-  <router-outlet></router-outlet>
+<div class="dashboard-container">
+  <div class="dashboard-section">
+    <h1>Honest Weather - Dashboard</h1>
+    <button md-raised-button routerLink=".">Bookmarked Cities</button>
+    <button md-raised-button routerLink="new">Set location</button>
+    <router-outlet></router-outlet>
+  </div>
 </div>
+
+<a (click)="logout()" href="#" class="logout-btn">Get me the fuck out of here</a>

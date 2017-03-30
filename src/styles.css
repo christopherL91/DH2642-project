@@ -1,2 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
+body {
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+  background: #121738;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #fff;
+}
+
+.mat-input-underline {
+  display: none !important;
+}
+
+.button--primary {
+
+}
+
+
+.button--large {
+  padding:10px 60px !important;
+}
