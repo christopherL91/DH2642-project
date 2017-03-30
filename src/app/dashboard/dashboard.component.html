@@ -1,11 +1,9 @@
 <div>
   <h1>Dashboard</h1>
-  <nav>
-    <a (click)="logout()">
-      Logout
-    </a>
     <a md-raised-button routerLink=".">Bookmarked Cities</a>
     <a md-raised-button routerLink="config">Change current location</a>
-  </nav>
   <router-outlet></router-outlet>
+  <a (click)="logout()" href="#" class="logout-btn">
+    Logout
+  </a>
 </div>
