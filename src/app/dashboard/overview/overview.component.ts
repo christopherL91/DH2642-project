@@ -12,4 +12,14 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  // Removes the city
+  remove() {
+
+  }
+
+  // Redirects to the city screen
+  open() {
+
+  }
 }

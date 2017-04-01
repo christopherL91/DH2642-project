@@ -1,3 +1,7 @@
-<p>
-  add works!
-</p>
+<md-input-container class="new-location">
+  <label>Which other location you gotta stalk, weirdo?</label>
+  <input type="text" #newlocation mdInput required>
+</md-input-container>
+<div>
+  <button md-raised-button (click)="setlocation(newlocation.value)" class="button--large button--primary">Add this city</button>
+</div>

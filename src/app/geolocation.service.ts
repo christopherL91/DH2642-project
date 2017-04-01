@@ -14,6 +14,7 @@ export class GeolocationService {
 
   constructor(public http: Http) {}
 
+
 	getCoords(opts): Observable<any> {
 		return Observable.create(observer => {
 			if (window.navigator && window.navigator.geolocation) {
@@ -45,10 +46,15 @@ export class GeolocationService {
 
   getLocation(lat, long) {
 
-    var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + '%2C' + long + '&language=en';
+    var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + '%2C' + long + '&language=en' + '&sensor=true';
 
     this.http.get(GEOCODING).subscribe( city => {
-      console.log(city);
+      let address = JSON.parse(city.text()).results[0]["address_components"];
+      address.forEach(item => {
+        if (item.types.indexOf("locality") > -1 ) {
+          return item['long_name'];
+        }
+      })
     })
   }
 }
