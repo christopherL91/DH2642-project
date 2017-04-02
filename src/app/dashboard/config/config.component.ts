@@ -21,7 +21,4 @@ export class ConfigComponent implements OnInit {
       error => console.error(error),
     );
   }
-
-  setlocation() {
-  }
 }

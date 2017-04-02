@@ -9,6 +9,8 @@ import { ConfigComponent } from './dashboard/config/config.component';
 
 // Guards
 import {AuthGuard} from './auth.guard';
+import {AddComponent} from "./dashboard/add/add.component";
+import {CityComponent} from "./city/city.component";
 
 const appRoutes: Routes = [
     {
@@ -33,7 +35,15 @@ const appRoutes: Routes = [
                 path: 'new',
                 component: ConfigComponent,
             },
+          {
+            path: 'add',
+            component: AddComponent,
+          },
         ]
+    },
+    {
+        path: 'city',
+        component: CityComponent
     },
     {
         path: '**',
@@ -48,4 +58,6 @@ export const routedComponents = [
     DashboardComponent,
     OverviewComponent,
     ConfigComponent,
+    AddComponent,
+    CityComponent
 ];

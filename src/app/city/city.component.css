@@ -1,0 +1,20 @@
+.city-container {
+  max-width: 1280px;
+  width: 996px;
+  margin: 0 auto;
+}
+.temperature {
+  font-size: 60px;
+  margin: 0;
+  padding:0;
+}
+
+.cityname {
+  font-size: 48px;
+  margin: 0;
+  padding: 0;
+}
+
+.temperature-container {
+  text-align: center;
+}
