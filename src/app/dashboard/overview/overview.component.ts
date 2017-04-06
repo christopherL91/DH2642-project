@@ -1,5 +1,7 @@
 import { Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import { FirebaseObjectObservable } from 'angularfire2';
+import { AuthenticationService } from '../../authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-overview',
@@ -8,18 +10,22 @@ import {Observable} from 'rxjs';
 })
 export class OverviewComponent implements OnInit {
 
-  constructor() {
+  private item: FirebaseObjectObservable<any>;
+
+  constructor(
+    private auth: AuthenticationService,
+    private route: ActivatedRoute) {}
+
+  ngOnInit() {
+     this.route
+      .data
+      .subscribe((data: any) => {
+        this.item = data.userdata;
+      });
   }
 
-  ngOnInit() {}
-
-  // Removes the city
-  remove() {
-
-  }
-
-  // Redirects to the city screen
-  open() {
-
+  // Removes the location
+  remove(location: string): firebase.Promise<any> | any {
+    return this.item.$ref.child(`locations/${location}`).remove();
   }
 }

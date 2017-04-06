@@ -1,25 +1,9 @@
 <div>
-  <md-card class="weather-card" (click)="open()">
+  <md-card *ngFor="let entry of (item | async)?.locations | keys" class="weather-card" routerLink="city/{{entry.key}}">
     <md-card-content>
-      <h2>Stockholm</h2>
+      <h2>{{entry.key}}</h2>
     </md-card-content>
-    <a href="#" (click)="remove()" class="removecity">
-      <span class="fa fa-times fa-2x"></span>
-    </a>
-  </md-card>
-  <md-card class="weather-card" (click)="open()">
-    <md-card-content>
-      <h2>New Delhi</h2>
-    </md-card-content>
-    <a href="#" (click)="remove()" class="removecity">
-      <span class="fa fa-times fa-2x"></span>
-    </a>
-  </md-card>
-  <md-card class="weather-card" (click)="open()">
-    <md-card-content>
-      <h2>Mumbai</h2>
-    </md-card-content>
-    <a href="#" (click)="remove()" class="removecity">
+    <a (click)="remove(entry.key)" class="removecity">
       <span class="fa fa-times fa-2x"></span>
     </a>
   </md-card>

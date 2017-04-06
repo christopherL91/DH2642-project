@@ -1,31 +1,46 @@
 import { Injectable } from '@angular/core';
-import { AngularFire, AuthProviders, AngularFireAuth, AngularFireDatabase } from 'angularfire2';
+import { 
+  AngularFire,
+  AngularFireAuth, 
+  AngularFireDatabase, 
+  FirebaseAuthState,
+  FirebaseObjectObservable, 
+} from 'angularfire2';
+import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthenticationService {
-  public userService: AngularFireAuth;
-  public databaseService: AngularFireDatabase;
 
-  constructor(private af: AngularFire, private router: Router) {
-    this.userService = af.auth;
-    this.databaseService = af.database;
-  }
+  constructor(private af: AngularFire, private router: Router) {}
 
   login() {
-    return this.userService.login().then((data) => {
-      return this.databaseService.object(`/users/${data.auth.uid}`).set({
+    return this.af.auth.login().then((data) => {
+      return this.af.database.object(`/users/${data.auth.uid}`).update({
         name: data.auth.displayName,
         photo: data.auth.photoURL,
-      }).then(() => {
-        return this.router.navigate(['/dashboard']);
-      });
+      }).then(() => this.router.navigate(['/dashboard']));
     });
   }
 
-  logout() {
-    return this.userService.logout().then(() => {
-      return this.router.navigate(['']);
-    })
+  logout(): Promise<Boolean> {
+    return this.af.auth.logout().then(() => {
+      return this.router.navigate(['/login']);
+    });
+  }
+
+  getUser(): Observable<FirebaseObjectObservable<any>> {
+    return this.af.auth.asObservable()
+      .take(1)
+      .map((authState) => {
+        if(Boolean(authState)) {
+          return this.af.database.object(`/users/${authState.auth.uid}`);
+        }
+      }).share();
+  }
+
+  isAuthenticated(): Observable<Boolean> {
+    return this.getUser()
+      .map((authState) => Boolean(authState));
   }
 }

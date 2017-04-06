@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "weatherservice": "node weatherservice",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -22,8 +23,11 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "angularfire2": "^2.0.0-beta.8",
+    "body-parser": "^1.17.1",
     "core-js": "^2.4.1",
+    "cors": "^2.8.3",
     "dark-sky": "^1.0.10",
+    "express": "^4.15.2",
     "firebase": "^3.7.4",
     "hammerjs": "^2.0.8",
     "rxjs": "^5.1.0",
@@ -32,6 +36,7 @@
   "devDependencies": {
     "@angular/cli": "1.0.0",
     "@angular/compiler-cli": "^4.0.0",
+    "@types/googlemaps": "^3.26.8",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
     "codelyzer": "~2.0.0",

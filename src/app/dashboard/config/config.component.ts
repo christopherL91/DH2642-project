@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserdataService } from '../../userdata.service';
+import { AuthenticationService } from '../../authentication.service';
 import { GeolocationService } from '../../geolocation.service';
+import { FirebaseObjectObservable } from 'angularfire2';
+import * as firebase from 'firebase';
+import { ActivatedRoute } from '@angular/router';
+import { WeatherService } from '../../weather.service';
 
 @Component({
   selector: 'app-config',
@@ -9,16 +13,73 @@ import { GeolocationService } from '../../geolocation.service';
 })
 export class ConfigComponent implements OnInit {
 
-  constructor(private config: UserdataService, public locationService: GeolocationService) {
-    config.data.subscribe(
-      data => console.log('USER DATA', data),
+  private item: FirebaseObjectObservable<any>;
+
+  constructor(
+    private auth: AuthenticationService, 
+    private locationService: GeolocationService,
+    private route: ActivatedRoute,
+    private weather: WeatherService) {
+    this.locationService.getCoords([]).subscribe(
+      location => this.setLocation(location),
+      error => console.error(error),
     );
   }
 
   ngOnInit() {
-    this.locationService.getCoords([]).subscribe(
-      location => this.locationService.getLocation(location.coords.latitude, location.coords.longitude),
-      error => console.error(error),
-    );
+    this.route
+      .data
+      .subscribe((data: any) => {
+        this.item = data.userdata;
+      });
+  }
+
+  //TODO: Raghu
+  // set home location.
+  setLocation(location: any): firebase.Promise<void> | any {
+    if(location instanceof Object) { // Got location from browser
+      const latitude = location.coords.latitude;
+      const longitude = location.coords.longitude;
+      const coordinates = new google.maps.LatLng(latitude, longitude);
+      this.weather.geocode(coordinates).subscribe(
+        data => {
+          return this.item.update({
+            home: {
+              location: data[0].formatted_address,
+              coordinates: {
+                latitude,
+                longitude,
+              },
+            }
+          });
+        },
+        error => console.error(error),
+      );
+    } else { // User typed location manually
+      this.weather.codeAddress(location).subscribe(
+        data => {
+          const closest = data[0];
+          const latitude = closest.geometry.location.lat();
+          const longitude = closest.geometry.location.lng();
+          return this.item.update({
+            home: {
+              location: closest.formatted_address,
+              coordinates: {
+                latitude,
+                longitude,
+              },
+            }
+          });
+        },
+        error => console.error(error),
+      );
+    }
+  }
+
+  // get home location
+  getLocation(): firebase.Promise<string> {
+    return this.item.$ref.child('home').once('value', response => {
+      return response.val();
+    });
   }
 }

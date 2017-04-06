@@ -1,10 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
-import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
-import { Router } from '@angular/router';
+import { 
+  AngularFireModule,
+  AuthProviders,
+  AuthMethods,
+} from 'angularfire2';
 
 import {AppComponent} from './app.component';
 
@@ -15,9 +18,12 @@ import { WeatherService } from './weather.service';
 import { UserdataService } from './userdata.service';
 import { AuthGuard } from './auth.guard';
 
-import {routing, routedComponents} from './app.routes';
+import { routing, routedComponents } from './app.routes';
 import { AddComponent } from './dashboard/add/add.component';
-import { CityComponent } from './city/city.component';
+import { CityComponent } from './dashboard/city/city.component';
+
+import { DataResolver } from './app.resolver';
+import { KeysPipe } from './keys.pipe';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCtgHfPbBh37bGoUIJoUHAVJhwaVLd4TNc',
@@ -33,11 +39,13 @@ const firebaseConfig = {
     routedComponents,
     AddComponent,
     CityComponent,
+    KeysPipe,
   ],
   imports: [
     BrowserModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     routing,
     AngularFireModule.initializeApp(firebaseConfig, {
@@ -51,14 +59,8 @@ const firebaseConfig = {
     GeolocationService,
     WeatherService,
     AuthGuard,
+    DataResolver,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-
-  constructor(private router: Router) {
-    router.events.subscribe(
-      path => console.log('ROUTER CHANGE', path),
-    );
-  }
-}
+export class AppModule {}
