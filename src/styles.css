@@ -27,3 +27,7 @@ h1, h2, h3, h4, h5, h6 {
 .button--large {
   padding:10px 60px !important;
 }
+
+.mat-autocomplete-panel {
+  max-width: 100% !important;
+}

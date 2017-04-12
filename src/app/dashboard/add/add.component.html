@@ -1,16 +1,16 @@
 <!--TODO: Raghu-->
 <md-input-container class="new-location">
   <label>Which other location you gotta stalk, weirdo?</label>
-  <input 
-    type="text" 
-    #location 
-    mdInput 
-    [formControl]="citiesControl" 
+  <input
+    type="text"
+    #location
+    mdInput
+    [formControl]="citiesControl"
     [mdAutocomplete]="cities"
     required>
 </md-input-container>
 
-<md-autocomplete #cities="mdAutocomplete">
+<md-autocomplete #cities="mdAutocomplete" id="autocompletecity">
    <md-option *ngFor="let option of filteredOptions | async" [value]="option.description" (onSelect)="selected(option)">
       {{ option.description }}
    </md-option>
@@ -18,7 +18,7 @@
 <div>
   <button
     md-raised-button
-    (click)="add(location.value)" 
+    (click)="add(location.value)"
     class="button--large button--primary">
     Add this city
   </button>
