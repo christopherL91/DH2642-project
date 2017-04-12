@@ -14,7 +14,8 @@ import { ActivatedRoute } from '@angular/router';
 export class AddComponent implements OnInit {
 
   private item: FirebaseObjectObservable<any>;
-  myControl = new FormControl(); // For md-autocomplete. https://material.angular.io/components/component/autocomplete
+  private citiesControl = new FormControl(); // For md-autocomplete. https://material.angular.io/components/component/autocomplete
+  private filteredOptions: Observable<any>;
 
   constructor(
     private weather: WeatherService, 
@@ -27,33 +28,47 @@ export class AddComponent implements OnInit {
       .subscribe((data: any) => {
         this.item = data.userdata;
       });
+    
+    this.filteredOptions = this.citiesControl.valueChanges
+      .startWith(null)
+      .filter(input => Boolean(input))
+      .mergeMap(keyword => this.search(keyword));
+  }
+
+  // TODO: Raghu
+  // Should we do something when the user has selected a city?
+  private selected(user: google.maps.places.AutocompletePrediction): void {
+    this.weather.codeAddress({placeId: user.place_id})
+    .mergeMap(cities => {
+      const city = cities[0]; // exact match
+      const latitude = String(city.geometry.location.lat());
+      const longitude = String(city.geometry.location.lng());
+      return this.weather.getForcastForLocation(latitude, longitude)
+        .map(weather => Object.assign(weather, {city}));
+    })
+    .subscribe(
+      weatherData => console.log('WEATHERDATA', weatherData),
+      error => console.error(error),
+    )
   }
 
   // For autocompletion.
-  //TODO: Raghu
-  public search(input: string): Observable<google.maps.places.AutocompletePrediction[]> {
-    return this.weather.search({input})
-      .debounceTime(500) // wait 500ms until next value in the stream
-      .map(this.formatResponse);
+  // TODO: Raghu
+  private search(input: string): Observable<google.maps.places.AutocompletePrediction[]> {
+    console.log('INPUT', input);
+    return this.weather.search({input});
   }
 
-  // Consider the input to be an object where location and coordinates is
-  // already set. City component will read the coordinates and
-  // fetch the forecast for that location.
   //TODO: Raghu
-  public add(location: string): firebase.Promise<any> {
+  private add(location: string): firebase.Promise<any> {
+    // Consider the input to be an object instead of a string
+    // where location and coordinates is
+    // already set. City component will read the coordinates and
+    // fetch the forecast for that location.
+    const key = location.replace(/\s+/g, '-').toLowerCase();
     // Consider location is an object {location: 'Stockholm', coordinates: {latitude: 0.5, longitude: 0.7}}
-    return this.item.$ref.child(`locations/${location.toLowerCase()}`).update({
+    return this.item.$ref.child(`locations/${key}`).update({
       coordinates: {latitude: 59.3547229, longitude: 18.087825800000005} // Add the actual coordinates here.
     });
-  }
-
-  // format autocomplete response
-  private formatResponse(response: Object): Object {
-    console.log(response);
-    // TODO Raghu
-    // Actually transform the response object into something
-    // that is more easily traversed by ngFor
-    return response;
   }
 }

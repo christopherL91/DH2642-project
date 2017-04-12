@@ -73,16 +73,16 @@ export class WeatherService {
    * @param address The address to be searched
    * @return An observable of GeocoderResult
    */
-  codeAddress(address: string): Observable<google.maps.GeocoderResult[]> {
+  codeAddress(options: google.maps.GeocoderRequest): Observable<google.maps.GeocoderResult[]> {
       return new Observable((observer: Observer<google.maps.GeocoderResult[]>) => {
           // Invokes geocode method of Google Maps API geocoding.
-          this.geocoder.geocode({'address': address}, (
+          this.geocoder.geocode(options, (
               (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
                   if (status === google.maps.GeocoderStatus.OK) {
                       observer.next(results);
                       observer.complete();
                   } else {
-                      console.log(
+                      console.error(
                         `Geocoding service: geocode was not successful for the following reason: ${status}`
                       );
                       observer.error(status);

@@ -22,7 +22,7 @@ app.post('/forecast', (req, res, next) => {
     .longitude(longitude)
     .units('ca')
     .language('en')
-    .exclude('minutely,daily')
+    .exclude('daily')
     .extendHourly(true)
     .get()
     .then(response => {

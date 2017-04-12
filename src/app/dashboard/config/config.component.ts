@@ -56,7 +56,7 @@ export class ConfigComponent implements OnInit {
         error => console.error(error),
       );
     } else { // User typed location manually
-      this.weather.codeAddress(location).subscribe(
+      this.weather.codeAddress({address: location}).subscribe(
         data => {
           const closest = data[0];
           const latitude = closest.geometry.location.lat();
