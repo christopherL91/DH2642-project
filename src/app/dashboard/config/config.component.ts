@@ -20,7 +20,7 @@ export class ConfigComponent implements OnInit {
     private locationService: GeolocationService,
     private route: ActivatedRoute,
     private weather: WeatherService) {
-    this.locationService.getCoords([]).subscribe(
+    this.locationService.getCoords([]).subscribe( // Get user coordinates
       location => this.setLocation(location),
       error => console.error(error),
     );
@@ -34,9 +34,9 @@ export class ConfigComponent implements OnInit {
       });
   }
 
-  //TODO: Raghu
-  // set home location.
-  setLocation(location: any): firebase.Promise<void> | any {
+  // TODO: Raghu
+  // Set home location.
+  public setLocation(location: any): firebase.Promise<void> | any {
     if(location instanceof Object) { // Got location from browser
       const latitude = location.coords.latitude;
       const longitude = location.coords.longitude;
@@ -76,9 +76,9 @@ export class ConfigComponent implements OnInit {
     }
   }
 
-  // get home location
-  getLocation(): firebase.Promise<string> {
-    return this.item.$ref.child('home').once('value', response => {
+  // Get home location
+  public getLocation(): firebase.Promise<any> {
+    return this.item.$ref.child('home').once('value', (response: firebase.database.DataSnapshot) => {
       return response.val();
     });
   }

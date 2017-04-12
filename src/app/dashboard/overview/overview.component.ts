@@ -25,7 +25,7 @@ export class OverviewComponent implements OnInit {
   }
 
   // Removes the location
-  remove(location: string): firebase.Promise<any> | any {
+  public remove(location: string): firebase.Promise<any> | any {
     return this.item.$ref.child(`locations/${location}`).remove();
   }
 }

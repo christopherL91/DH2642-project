@@ -1,4 +1,10 @@
 <div class="city-container">
+  <md-grid-list *ngFor="let entry of forecast | async | keys" cols="2">
+    Key: {{entry.key}} Value: {{entry.value}}
+  </md-grid-list>
+</div>
+
+<!--<div class="city-container">
   <div class="city-component">
     <md-grid-list cols="2">
       <md-grid-tile>
@@ -95,4 +101,4 @@
       </md-grid-tile>
     </md-grid-list>
   </div>
-</div>
+</div>-->

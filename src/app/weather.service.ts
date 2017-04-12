@@ -7,11 +7,10 @@ import {} from '@types/googlemaps';
 @Injectable()
 export class WeatherService {
 
-  geocoder: google.maps.Geocoder;
+  private geocoder = new google.maps.Geocoder();
+  private autocomplete = new google.maps.places.AutocompleteService();
 
-  constructor(private http: Http) {
-    this.geocoder = new google.maps.Geocoder();
-  }
+  constructor(private http: Http) {}
 
   /**
    * Reverse geocoding by location.
@@ -30,13 +29,39 @@ export class WeatherService {
                       observer.next(results);
                       observer.complete();
                   } else {
-                      console.log(
+                      console.error(
                         `Geocoding service: geocoder failed due to: ${status}`
                       );
                       observer.error(status);
                   }
               })
           );
+      });
+  }
+
+   /**
+   * Places suggestions
+   * 
+   * Wraps the Google Maps API places suggestions service into an observable.
+   * 
+   * @param options google.maps.places.AutocompletionRequest
+   * @return An observable of AutocompletePrediction
+   */
+  search(options: google.maps.places.AutocompletionRequest): Observable<google.maps.places.AutocompletePrediction[]> {
+      return new Observable((observer: Observer<google.maps.places.AutocompletePrediction[]>) => {
+        this.autocomplete.getPlacePredictions(options, (
+            (result: google.maps.places.AutocompletePrediction[], status: google.maps.places.PlacesServiceStatus) => {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    observer.next(result);
+                    observer.complete();
+                } else {
+                    console.error(
+                        `Autocomplete service: autocomplete failed due to: ${status}`
+                    )
+                    observer.error(status);
+                }
+            }
+        ));
       });
   }
 
@@ -68,11 +93,11 @@ export class WeatherService {
   }
 
   // Returns darksky forecast for given coordinates.
-  getForcastForLocation(latitude: string, longitude: string): Observable<Response> {
+  getForcastForLocation(latitude: string, longitude: string): Observable<any> {
     const WeatherServiceURL = 'http://localhost:8080/forecast'; // Start the local server before using this.
     const body = JSON.stringify({latitude, longitude});
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({headers});
     return this.http.post(WeatherServiceURL, body, options).map(response => {
       return response.json();
     });

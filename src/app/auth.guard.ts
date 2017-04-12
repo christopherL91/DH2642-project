@@ -15,6 +15,7 @@ export class AuthGuard implements CanActivate {
   
   constructor(private auth: AuthenticationService, private router: Router) {}
 
+  // Check whether the user can access the page.
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {

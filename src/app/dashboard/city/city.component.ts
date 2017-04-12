@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseObjectObservable } from 'angularfire2';
+import { Observable } from 'rxjs';
 import { WeatherService } from '../../weather.service';
+import R from 'ramda';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-city',
@@ -11,30 +14,39 @@ import { WeatherService } from '../../weather.service';
 export class CityComponent implements OnInit {
 
   private item: FirebaseObjectObservable<any>;
-  private forecast: any;
+  private forecast: Observable<Object>
 
   constructor(private route: ActivatedRoute, private weather: WeatherService) {}
 
   ngOnInit() {
     const location = this.route.snapshot.paramMap.get('location'); //city/:location
-    console.log('location', location); // Firebase location. Load and display weather using this.
     this.route
       .data
       .subscribe((data: any) => {
         this.item = data.userdata;
-        this.item.$ref.child(`locations/${location}`).once('value', response => {
+        this.item.$ref.child(`locations/${location}`).once('value', (response: firebase.database.DataSnapshot) => {
           const {coordinates} = response.val();
-          console.log(coordinates);
           const latitudeString = String(coordinates.latitude);
           const longitudeString = String(coordinates.longitude);
-          console.log(latitudeString, longitudeString)
           this.forecast = this.weather
             .getForcastForLocation(latitudeString, longitudeString)
-            .subscribe(
-              data => console.log(data),
-              error => console.error(error),
-            )
+            .map(this.formatWeather);
         });
       });
+  }
+
+  // Convert from UNIX timestamp to UTC time.
+  // Darksky API uses UNIX timestamps for their timestamps.
+  private fromUNIX(timestamp): moment.Moment {
+    return moment.unix(timestamp).utc(true);
+  }
+
+  // Format weather data.
+  private formatWeather(response: Object): Object {
+    console.log(response);
+    // TODO
+    // Actually transform the response object into something
+    // that is more easily traversed by ngFor
+    return response;
   }
 }

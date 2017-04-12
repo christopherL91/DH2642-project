@@ -18,12 +18,14 @@ export class DashboardComponent implements OnInit {
     this.route
       .data
       .subscribe((data: any) => {
-        // your resolved data from route
         this.item = data.userdata;
       });
   }
 
-  logout(): Promise<Boolean> {
-    return this.auth.logout();
+  public logout(): Promise<Boolean> {
+    return this.auth.logout()
+      .catch(err => {
+        console.error('LOGOUT ERROR', err);
+      });
   }
 }

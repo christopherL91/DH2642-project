@@ -19,17 +19,10 @@ export class LoginComponent {
   
   constructor(private auth: AuthenticationService, private router: Router) {}
 
-  login() {
+  public login() {
     this.auth.login()
       .catch(err => {
         console.error('LOGIN ERROR', err);
-      });
-  }
-
-  logout() {
-    this.auth.logout()
-      .catch(err => {
-        console.error('LOGOUT ERROR', err);
       });
   }
 }
