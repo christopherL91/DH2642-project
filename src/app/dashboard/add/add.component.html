@@ -7,7 +7,9 @@
     mdInput
     [formControl]="citiesControl"
     [mdAutocomplete]="cities"
-    required>
+    required
+    [readonly]="disableinput"
+  >
 </md-input-container>
 
 <md-autocomplete #cities="mdAutocomplete" id="autocompletecity">
@@ -19,7 +21,8 @@
   <button
     md-raised-button
     (click)="add(location.value)"
-    class="button--large button--primary">
+    class="button--large button--primary"
+    [disabled]="!selectedcity">
     Add this city
   </button>
 </div>

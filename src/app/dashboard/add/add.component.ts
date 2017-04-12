@@ -16,10 +16,12 @@ export class AddComponent implements OnInit {
   private item: FirebaseObjectObservable<any>;
   private citiesControl = new FormControl(); // For md-autocomplete. https://material.angular.io/components/component/autocomplete
   private filteredOptions: Observable<any>;
+  selectedcity: boolean;
+  disableinput: boolean;
 
   constructor(
-    private weather: WeatherService, 
-    private auth: AuthenticationService, 
+    private weather: WeatherService,
+    private auth: AuthenticationService,
     private route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -28,11 +30,14 @@ export class AddComponent implements OnInit {
       .subscribe((data: any) => {
         this.item = data.userdata;
       });
-    
+
     this.filteredOptions = this.citiesControl.valueChanges
       .startWith(null)
       .filter(input => Boolean(input))
       .mergeMap(keyword => this.search(keyword));
+
+    this.disableinput = false;
+    this.selectedcity = false;
   }
 
   // TODO: Raghu
@@ -43,6 +48,8 @@ export class AddComponent implements OnInit {
       const city = cities[0]; // exact match
       const latitude = String(city.geometry.location.lat());
       const longitude = String(city.geometry.location.lng());
+      this.selectedcity = true;
+      this.disableinput = true;
       return this.weather.getForcastForLocation(latitude, longitude)
         .map(weather => Object.assign(weather, {city}));
     })
