@@ -18,6 +18,7 @@ export class AddComponent implements OnInit {
   private filteredOptions: Observable<any>;
   selectedcity: boolean;
   disableinput: boolean;
+  location: string = '';
 
   constructor(
     private weather: WeatherService,
@@ -36,6 +37,12 @@ export class AddComponent implements OnInit {
       .filter(input => Boolean(input))
       .mergeMap(keyword => this.search(keyword));
 
+    this.disableinput = false;
+    this.selectedcity = false;
+  }
+
+  resetcity() {
+    this.location = '';
     this.disableinput = false;
     this.selectedcity = false;
   }

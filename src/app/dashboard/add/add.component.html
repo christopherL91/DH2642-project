@@ -3,7 +3,7 @@
   <label>Which other location you gotta stalk, weirdo?</label>
   <input
     type="text"
-    #location
+    [(ngModel)]="location"
     mdInput
     [formControl]="citiesControl"
     [mdAutocomplete]="cities"
@@ -18,6 +18,12 @@
    </md-option>
 </md-autocomplete>
 <div>
+  <button
+    md-raised-button
+    (click)="resetcity()"
+    class="button--large button--primary">
+    Reset
+  </button>
   <button
     md-raised-button
     (click)="add(location.value)"
