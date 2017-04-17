@@ -17,4 +17,48 @@
 
 .temperature-container {
   text-align: center;
+  color: white;
+}
+
+.temperature-number {
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.icon-custom-weather {
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: center;
+  height: 32px;
+  width: 32px;
+  float: left;
+  margin: 10px;
+}
+
+.icon-custom-rain {
+  background-image: url('/assets/images/rain.svg');
+}
+
+.icon-custom-snow {
+  background-image: url('/assets/images/snow.svg');
+}
+
+.icon-custom-sun-cloud {
+  background-image: url('/assets/images/sund-cloud.svg');
+}
+
+.icon-custom-sunshine {
+  background-image: url('/assets/images/sunshine.svg');
+}
+
+.icon-custom-thunder {
+  background-image: url('/assets/images/thunder.svg');
+}
+
+.icon-custom-wind {
+  background-image: url('/assets/images/wind.svg');
+}
+
+.snow-cloud {
+  color: white;
 }
