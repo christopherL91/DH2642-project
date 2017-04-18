@@ -23,11 +23,10 @@ interface City {
 export class AddComponent implements OnInit {
 
   private item: FirebaseObjectObservable<any>;
-  private citiesControl = new FormControl(); // For md-autocomplete. https://material.angular.io/components/component/autocomplete
+  private locationsControl = new FormControl(); // For md-autocomplete. https://material.angular.io/components/component/autocomplete
   private filteredOptions: Observable<google.maps.places.AutocompletePrediction[]>;
   private selectedCity: City = undefined;
   private sub: Subscription;
-
 
   constructor(
     private weather: WeatherService, 
@@ -43,7 +42,7 @@ export class AddComponent implements OnInit {
         this.item = data.userdata;
       });
     
-    this.filteredOptions = this.citiesControl.valueChanges
+    this.filteredOptions = this.locationsControl.valueChanges
       .startWith(null)
       .filter(input => Boolean(input))
       .mergeMap(keyword => this.search(keyword));
@@ -84,7 +83,7 @@ export class AddComponent implements OnInit {
   }
 
   // Check if user selected a city from the autocomplete list
-  private validCity(): Boolean {
+  private validLocation(): Boolean {
     return Boolean(this.selectedCity);
   }
 

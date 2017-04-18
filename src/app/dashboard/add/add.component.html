@@ -5,12 +5,12 @@
     type="text" 
     #location 
     mdInput 
-    [formControl]="citiesControl" 
-    [mdAutocomplete]="cities"
+    [formControl]="locationsControl" 
+    [mdAutocomplete]="locations"
     required>
 </md-input-container>
 
-<md-autocomplete #cities="mdAutocomplete">
+<md-autocomplete #locations="mdAutocomplete">
    <md-option *ngFor="let option of filteredOptions | async" [value]="option.description" (onSelect)="selected(option)">
       {{ option.description }}
    </md-option>
@@ -18,10 +18,10 @@
 <div>
   <button
     md-raised-button
-    [disabled] = "!validCity()"
+    [disabled] = "!validLocation()"
     (click)="add()" 
     class="button--large button--primary">
-    Add this city
+    Add this location
   </button>
   <button 
     md-raised-button 

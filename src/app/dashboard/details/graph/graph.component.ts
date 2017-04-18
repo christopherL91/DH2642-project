@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import * as Moment from 'moment';
 import { extendMoment } from 'moment-range';
 
-const moment = extendMoment(Moment);
+const moment = extendMoment(Moment); // Access to time ranges
 
 @Component({
   selector: 'app-graph',
