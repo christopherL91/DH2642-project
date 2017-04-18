@@ -6,10 +6,9 @@
 }
 
 .weather-card:first-child {
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
-/*TODO: Fix this */
 .weather-card:last-child {
   margin-bottom: 50px;
 }
@@ -21,6 +20,15 @@
   background: #D17C78;
   transition-duration: 0.2s;
   cursor: pointer;
+  padding: 5px 10px;
+  position: relative;
+}
+
+.weather-card h2 {
+  width:80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
@@ -29,11 +37,10 @@
   transition-duration: 0.2s;
 }
 
-
 .weather-card h2 {
   color: #121738;
 }
 
-.weather-card .mat-card-content {
-  margin-bottom: 0 !important;
+.dashboard-heading {
+  margin-top:100px;
 }

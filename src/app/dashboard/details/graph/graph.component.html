@@ -1,23 +1,35 @@
-<div class="row">
-  <div class="col-md-6">
-    <div style="display: block;">
-      <canvas baseChart width="400" height="400"
-        [datasets]="lineChartData"
-        [labels]="lineChartLabels"
-        [options]="lineChartOptions"
-        [legend]="lineChartLegend"
-        [chartType]="lineChartType">
-      </canvas>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="text-center temperature-comparison">Temperature Vs. Apparent Temperature</h1>
     </div>
   </div>
-  <button 
-    md-raised-button 
-    (click)="toggleType()">
-    Toggle graph type
-  </button>
-  <button 
-    md-raised-button 
-    (click)="back()">
-    Back
-  </button>
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <div style="display: block;">
+        <canvas baseChart width="200" height="200"
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType">
+        </canvas>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <button
+        md-raised-button
+        (click)="toggleType()">
+        Toggle graph type
+      </button>
+      <button
+        md-raised-button
+        (click)="back()">
+        Back
+      </button>
+    </div>
+  </div>
 </div>
+

@@ -17,4 +17,107 @@
 
 .temperature-container {
   text-align: center;
+  color: white;
+}
+
+.currentloction {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 36px;
+  margin: 0;
+}
+
+.currenttemperature {
+  font-size: 48px;
+  text-align: right;
+  margin-top: -12px;
+}
+
+.temperature-number {
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.temperature-date-timezone {
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.icon-custom-weather {
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: center;
+  height: 32px;
+  width: 32px;
+  display: block;
+  margin: 10px auto;
+}
+
+.icon-custom-clear-night {
+  background-image: url('/assets/images/clear-sky-night.svg');
+  background-size: 48px;
+  background-position: -8px -8px;
+}
+
+.icon-custom-rain, icon-custom-sleet {
+  background-image: url('/assets/images/rain.svg');
+}
+
+.icon-custom-snow {
+  background-image: url('/assets/images/snow.svg');
+}
+
+.icon-custom-partly-cloudy-day {
+  background-image: url('/assets/images/sund-cloud.svg');
+}
+
+.icon-custom-partly-cloudy-night {
+  background-image: url('/assets/images/partly-cloudy-night.svg');
+  background-size: 48px;
+  background-position: -8px -8px;
+}
+
+.icon-custom-cloudy {
+  background-image: url('/assets/images/clear-sky-night.svg');
+}
+
+.icon-custom-fog {
+  background-image: url('/assets/images/fog.svg');
+}
+
+.icon-custom-clear-day {
+  background-image: url('/assets/images/sunshine.svg');
+}
+
+.icon-custom-wind {
+  background-image: url('/assets/images/wind.svg');
+}
+
+video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  transform: translateX(-50%) translateY(-50%);
+  transition: 1s opacity;
+}
+
+.overlayvideo {
+  background: rgba(0,0,0,0.8);
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+.city-headings {
+  margin-top: 200px;
+  margin-bottom: 50px;
 }
