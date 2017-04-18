@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { FirebaseObjectObservable } from 'angularfire2';
-import { AuthenticationService } from '../../authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-overview',
@@ -11,21 +11,33 @@ import { ActivatedRoute } from '@angular/router';
 export class OverviewComponent implements OnInit {
 
   private item: FirebaseObjectObservable<any>;
+  private sub: Subscription;
 
-  constructor(
-    private auth: AuthenticationService,
-    private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) {}
 
-  ngOnInit() {
-     this.route
+  ngOnInit(): void {
+    this.sub = this.route
       .data
-      .subscribe((data: any) => {
-        this.item = data.userdata;
-      });
+      .take(1)
+      .subscribe(
+        (item: any) => {
+          this.item = item.userdata;
+        },
+        (error: Error) => {
+          console.error(error);
+        },
+      );
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   // Removes the location
-  public remove(location: string): firebase.Promise<any> | any {
-    return this.item.$ref.child(`locations/${location}`).remove();
+  private remove(location: string): firebase.Promise<any> {
+    return this.item
+      .$ref
+      .child(`locations/${location}`)
+      .remove();
   }
 }

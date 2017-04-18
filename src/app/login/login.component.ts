@@ -16,13 +16,13 @@ import { Observable } from 'rxjs';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+
+  private busy: firebase.Promise<any>;
   
   constructor(private auth: AuthenticationService, private router: Router) {}
 
-  public login() {
-    this.auth.login()
-      .catch(err => {
-        console.error('LOGIN ERROR', err);
-      });
+  private login(): firebase.Promise<any> {
+    this.busy = this.auth.login();
+    return this.busy;
   }
 }

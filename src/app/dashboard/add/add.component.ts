@@ -1,10 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../../weather.service';
+import { Location } from '@angular/common';
 import { FirebaseObjectObservable } from 'angularfire2';
 import { AuthenticationService } from '../../authentication.service';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+
+interface City {
+  name: String,
+  coordinates: {
+    latitude: String,
+    longitude: String,
+  },
+}
 
 @Component({
   selector: 'app-add',
@@ -15,15 +24,20 @@ export class AddComponent implements OnInit {
 
   private item: FirebaseObjectObservable<any>;
   private citiesControl = new FormControl(); // For md-autocomplete. https://material.angular.io/components/component/autocomplete
-  private filteredOptions: Observable<any>;
+  private filteredOptions: Observable<google.maps.places.AutocompletePrediction[]>;
+  private selectedCity: City = undefined;
+  private sub: Subscription;
+
 
   constructor(
     private weather: WeatherService, 
     private auth: AuthenticationService, 
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location) {}
 
-  ngOnInit() {
-    this.route
+  ngOnInit(): void {
+    this.sub = this.route
       .data
       .subscribe((data: any) => {
         this.item = data.userdata;
@@ -35,40 +49,60 @@ export class AddComponent implements OnInit {
       .mergeMap(keyword => this.search(keyword));
   }
 
-  // TODO: Raghu
-  // Should we do something when the user has selected a city?
-  private selected(user: google.maps.places.AutocompletePrediction): void {
-    this.weather.codeAddress({placeId: user.place_id})
-    .mergeMap(cities => {
-      const city = cities[0]; // exact match
-      const latitude = String(city.geometry.location.lat());
-      const longitude = String(city.geometry.location.lng());
-      return this.weather.getForcastForLocation(latitude, longitude)
-        .map(weather => Object.assign(weather, {city}));
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
+  // User selected a city from the autocomplete list
+  private selected(select: google.maps.places.AutocompletePrediction): void {
+    this.weather.codeAddress({placeId: select.place_id})
+      .map(cities => {
+        const city = cities[0]; // exact match
+        return Object.assign({}, {
+          name: city.formatted_address,
+          coordinates: {
+            latitude: String(city.geometry.location.lat()),
+            longitude: String(city.geometry.location.lng()),
+          },
+        });
     })
     .subscribe(
-      weatherData => console.log('WEATHERDATA', weatherData),
-      error => console.error(error),
-    )
+      (city: City) => {
+        console.log(city);
+        this.selectedCity = city; // Set city reference
+      },
+      (error: Error) => {
+        console.error(error);
+      },
+    );
   }
 
   // For autocompletion.
-  // TODO: Raghu
   private search(input: string): Observable<google.maps.places.AutocompletePrediction[]> {
     console.log('INPUT', input);
-    return this.weather.search({input});
+    return this.weather.search({input}).onErrorResumeNext(); // Don't crash on not found.
   }
 
-  //TODO: Raghu
-  private add(location: string): firebase.Promise<any> {
-    // Consider the input to be an object instead of a string
-    // where location and coordinates is
-    // already set. City component will read the coordinates and
-    // fetch the forecast for that location.
-    const key = location.replace(/\s+/g, '-').toLowerCase();
-    // Consider location is an object {location: 'Stockholm', coordinates: {latitude: 0.5, longitude: 0.7}}
-    return this.item.$ref.child(`locations/${key}`).update({
-      coordinates: {latitude: 59.3547229, longitude: 18.087825800000005} // Add the actual coordinates here.
-    });
+  // Check if user selected a city from the autocomplete list
+  private validCity(): Boolean {
+    return Boolean(this.selectedCity);
+  }
+
+  private add() {
+    const {name, coordinates} = this.selectedCity;
+    // Replace , with '' and space with ' '
+    const key = name.replace(/,/g, '').replace(/\s+/g, '-').toLowerCase();
+    this.item.$ref.child(`locations/${key}`)
+      .update({coordinates})
+      .then(() => {
+        this.router.navigate(['/dashboard']);
+      })
+      .catch((error: Error) => {
+        console.error(error); // Show error
+      });
+  }
+
+  private back() {
+    this.location.back();
   }
 }

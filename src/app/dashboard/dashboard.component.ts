@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
-import { FirebaseObjectObservable } from 'angularfire2';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,22 +8,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
 
-  private item: FirebaseObjectObservable<any>;
-
-  constructor(private auth: AuthenticationService, private route: ActivatedRoute) {}
+  constructor(private auth: AuthenticationService) {}
   
-  ngOnInit() {
-    this.route
-      .data
-      .subscribe((data: any) => {
-        this.item = data.userdata;
-      });
-  }
+  ngOnInit(): void {}
 
-  public logout(): Promise<Boolean> {
-    return this.auth.logout()
-      .catch(err => {
-        console.error('LOGOUT ERROR', err);
-      });
+  private logout(): Promise<Boolean> {
+    return this.auth.logout();
   }
 }

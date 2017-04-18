@@ -1,7 +1,7 @@
-<!--TODO: Raghu-->
+<div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: true, delay: 200, minDuration: 600}"></div>
 <md-input-container class="new-location">
   <label>Which other location you gotta stalk, weirdo?</label>
-  <input 
+  <input
     type="text" 
     #location 
     mdInput 
@@ -18,8 +18,14 @@
 <div>
   <button
     md-raised-button
-    (click)="add(location.value)" 
+    [disabled] = "!validCity()"
+    (click)="add()" 
     class="button--large button--primary">
     Add this city
+  </button>
+  <button 
+    md-raised-button 
+    (click)="back()">
+    Back
   </button>
 </div>

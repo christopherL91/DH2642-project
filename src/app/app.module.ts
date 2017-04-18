@@ -3,13 +3,16 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { 
   AngularFireModule,
   AuthProviders,
   AuthMethods,
 } from 'angularfire2';
+import { BusyModule } from 'angular2-busy';
 
-import {AppComponent} from './app.component';
+import { AppComponent } from './app.component';
 
 // Services
 import { AuthenticationService } from './authentication.service';
@@ -19,11 +22,10 @@ import { UserdataService } from './userdata.service';
 import { AuthGuard } from './auth.guard';
 
 import { routing, routedComponents } from './app.routes';
-import { AddComponent } from './dashboard/add/add.component';
-import { CityComponent } from './dashboard/city/city.component';
 
 import { DataResolver } from './app.resolver';
 import { KeysPipe } from './keys.pipe';
+import { DetailsComponent } from './dashboard/details/details.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCtgHfPbBh37bGoUIJoUHAVJhwaVLd4TNc',
@@ -37,14 +39,16 @@ const firebaseConfig = {
   declarations: [
     AppComponent,
     routedComponents,
-    AddComponent,
-    CityComponent,
     KeysPipe,
+    DetailsComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ChartsModule,
     MaterialModule,
     FormsModule,
+    BusyModule,
     ReactiveFormsModule,
     HttpModule,
     routing,

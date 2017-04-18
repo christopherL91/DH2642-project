@@ -10,7 +10,9 @@ export class DataResolver implements Resolve<Observable<FirebaseObjectObservable
     constructor(private auth: AuthenticationService) {}
 
     // Resolve firebase user data
-    public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<FirebaseObjectObservable<any>> {
+    public resolve(
+        route: ActivatedRouteSnapshot, 
+        state: RouterStateSnapshot): Observable<FirebaseObjectObservable<any>> {
         return this.auth.getUser();
     }
 }

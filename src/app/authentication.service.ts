@@ -14,32 +14,45 @@ export class AuthenticationService {
 
   constructor(private af: AngularFire, private router: Router) {}
 
-  login() {
-    return this.af.auth.login().then((data) => {
-      return this.af.database.object(`/users/${data.auth.uid}`).update({
-        name: data.auth.displayName,
-        photo: data.auth.photoURL,
-      }).then(() => this.router.navigate(['/dashboard']));
+  public login() {
+    return this.af.auth.login()
+      .then((user: FirebaseAuthState) => {
+        return this.af.database.object(`/users/${user.auth.uid}`)
+          .update({
+            name: user.auth.displayName,
+            photo: user.auth.photoURL,
+          })
+          .then(() => user);
+    })
+    .then((user: FirebaseAuthState) => {
+      console.log(user);
+      return this.router.navigate(['/dashboard']);
+    })
+    .catch((error: Error) => {
+      console.error(error);
     });
   }
 
-  logout(): Promise<Boolean> {
+  public logout(): Promise<Boolean> {
     return this.af.auth.logout().then(() => {
       return this.router.navigate(['/login']);
     });
   }
 
-  getUser(): Observable<FirebaseObjectObservable<any>> {
+  public getUser(): Observable<FirebaseObjectObservable<any>> {
     return this.af.auth.asObservable()
-      .take(1)
-      .map((authState) => {
+      .first()
+      .map((authState: FirebaseAuthState) => {
         if(Boolean(authState)) {
           return this.af.database.object(`/users/${authState.auth.uid}`);
+        } else {
+          return Observable.empty();
         }
-      }).share();
+      })
+      .share();
   }
 
-  isAuthenticated(): Observable<Boolean> {
+  public isAuthenticated(): Observable<Boolean> {
     return this.getUser()
       .map((authState) => Boolean(authState));
   }

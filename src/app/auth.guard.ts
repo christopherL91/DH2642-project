@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
   // Check whether the user can access the page.
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot) {
+    state: RouterStateSnapshot): Observable<Boolean> {
       return this.auth.isAuthenticated()
         .do((authenticated: Boolean) => {
           if(!authenticated) {
