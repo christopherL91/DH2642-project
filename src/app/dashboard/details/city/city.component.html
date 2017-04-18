@@ -8,20 +8,29 @@
   <div class="overlayvideo"></div>
 </div>
 
-<div class="city-container">
-  <div class="city-component">
-    <md-grid-list cols="12">
-      <md-grid-tile *ngFor="let entry of hourlytemp">
+<div *ngIf="currenticon">
+  <div class="container">
+    <div class="row city-headings">
+      <div class="col-sm-6">
+        <h1 class="currentloction">{{ currentlocation }}</h1>
+      </div>
+      <div class="col-sm-6">
+        <h1 class="currenttemperature">{{ currenttemp }} &deg;C</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngFor="let entry of hourlytemp" class="col-sm-1">
         <div class="temperature-container">
           <div class="temperature-date">{{ entry.time * 1000 | date:'HH:mm' }}</div>
+          <div class="temperature-date temperature-date-timezone">{{ entry.time * 1000 | date:'Z' }}</div>
           <div class="temperature-type">
             <span class="icon-custom-weather icon-custom-{{ entry.icon }}"></span>
           </div>
           <div class="temperature-number">{{ entry.temperature }} &deg;C</div>
         </div>
-      </md-grid-tile>
-    </md-grid-list>
-    <div style="margin-top: 50px;">
+      </div>
+    </div>
+    <div style="margin-top: 50px; text-align: center;">
       <button
         md-raised-button
         routerLink="graph">
@@ -35,3 +44,4 @@
     </div>
   </div>
 </div>
+

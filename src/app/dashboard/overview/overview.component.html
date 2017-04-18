@@ -1,19 +1,27 @@
 <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: true, delay: 200, minDuration: 600}"></div>
-<div>
-  <h1>Honest Weather - Dashboard</h1>
-  <md-card *ngFor="let entry of (item | async)?.locations | keys" class="weather-card" routerLink="details/{{entry.key}}">
-    <md-card-content>
-      <h2>{{entry.key}}</h2>
-    </md-card-content>
-    <a (click)="remove(entry.key)" class="removecity">
-      <span class="fa fa-times fa-2x"></span>
-    </a>
-  </md-card>
-  <div>
-    <button
-      md-raised-button 
-      routerLink="add">
-      Add Location
-    </button>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="text-center dashboard-heading">Honest Weather - Dashboard</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-offset-3 col-sm-6">
+      <div *ngFor="let entry of (item | async)?.locations | keys" class="weather-card" routerLink="details/{{entry.key}}">
+        <h2>{{entry.key}}</h2>
+        <a (click)="remove(entry.key)" class="removecity">
+          <span class="fa fa-times fa-2x"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <button
+        md-raised-button
+        routerLink="add">
+        Add Location
+      </button>
+    </div>
   </div>
 </div>

@@ -20,9 +20,28 @@
   color: white;
 }
 
+.currentloction {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 36px;
+  margin: 0;
+}
+
+.currenttemperature {
+  font-size: 48px;
+  text-align: right;
+  margin-top: -12px;
+}
+
 .temperature-number {
   font-weight: 300;
   font-size: 14px;
+}
+
+.temperature-date-timezone {
+  font-size: 12px;
+  font-weight: 300;
 }
 
 .icon-custom-weather {
@@ -31,8 +50,8 @@
   background-position: center;
   height: 32px;
   width: 32px;
-  float: left;
-  margin: 5px 10px;
+  display: block;
+  margin: 10px auto;
 }
 
 .icon-custom-clear-night {
@@ -95,4 +114,10 @@ video {
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+
+.city-headings {
+  margin-top: 200px;
+  margin-bottom: 50px;
 }

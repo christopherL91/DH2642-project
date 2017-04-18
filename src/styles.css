@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+@import "assets/bootstrap-grid/bootstrap.css";
 
 body {
   font-size: 16px;
@@ -30,4 +31,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .mat-autocomplete-panel {
   max-width: 100% !important;
+}
+
+
+.text-center {
+  text-align: center;
 }

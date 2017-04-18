@@ -1,31 +1,43 @@
 <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: true, delay: 200, minDuration: 600}"></div>
-<md-input-container class="new-location">
-  <label>Which other location you gotta stalk, weirdo?</label>
-  <input
-    type="text" 
-    #location 
-    mdInput 
-    [formControl]="locationsControl" 
-    [mdAutocomplete]="locations"
-    required>
-</md-input-container>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1 class="text-center weirdo-heading">Which other location you gotta stalk, weirdo?</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <md-input-container class="new-location">
+        <input
+          type="text"
+          #location
+          mdInput
+          [formControl]="locationsControl"
+          [mdAutocomplete]="locations"
+          required>
+      </md-input-container>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <button
+        md-raised-button
+        [disabled] = "!validLocation()"
+        (click)="add()"
+        class="button--large button--primary">
+        Add this location
+      </button>
+      <button
+        md-raised-button
+        (click)="back()">
+        Back
+      </button>
+    </div>
+  </div>
+</div>
 
 <md-autocomplete #locations="mdAutocomplete">
    <md-option *ngFor="let option of filteredOptions | async" [value]="option.description" (onSelect)="selected(option)">
       {{ option.description }}
    </md-option>
 </md-autocomplete>
-<div>
-  <button
-    md-raised-button
-    [disabled] = "!validLocation()"
-    (click)="add()" 
-    class="button--large button--primary">
-    Add this location
-  </button>
-  <button 
-    md-raised-button 
-    (click)="back()">
-    Back
-  </button>
-</div>

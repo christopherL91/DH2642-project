@@ -23,6 +23,7 @@ export class CityComponent implements OnInit {
   ngOnInit(): void {
     this.currentlocation = this.route.snapshot.paramMap.get('location');
     this.currentlocation = this.currentlocation.charAt(0).toUpperCase() + this.currentlocation.slice(1);
+    this.currentlocation = this.currentlocation.replace(/-/g, ' ');
     this.weatherSubscription$ = this.user.weatherSource$.subscribe(
       (weather: any) => {
         if (weather) {
