@@ -13,24 +13,20 @@ import { UserdataService } from './userdata.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
   
-  constructor(private auth: AuthenticationService, private user: UserdataService, private router: Router) {}
+  constructor(private auth: AuthenticationService, private router: Router) {}
 
-  // Only run on browser refresh.
+  // Check whether the user can access the page.
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.auth.userService
-      .take(1)
-      .map((authState: FirebaseAuthState): Boolean => {
-        if(Boolean(authState)) { // Got authentication
-          this.user.data = this.auth.databaseService.object(`/users/${authState.auth.uid}`);
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .do((authenticated: Boolean) => {
-        if (!authenticated) this.router.navigate(['']);
-      });
-  }
+    state: RouterStateSnapshot): Observable<Boolean> {
+      return this.auth.isAuthenticated()
+        .do((authenticated: Boolean) => {
+          if(!authenticated) {
+            this.router.navigate(['/login']);
+            return false;
+          } else {
+            return true;
+          }
+        });
+    }
 }

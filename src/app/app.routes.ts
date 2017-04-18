@@ -1,16 +1,14 @@
-import {Routes, RouterModule }   from '@angular/router';
-
+import { Routes, RouterModule }   from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OverviewComponent } from './dashboard/overview/overview.component';
-import { ConfigComponent } from './dashboard/config/config.component';
-
-// Guards
-import {AuthGuard} from './auth.guard';
-import {AddComponent} from "./dashboard/add/add.component";
-import {CityComponent} from "./city/city.component";
+import { AuthGuard } from './auth.guard';
+import { AddComponent } from "./dashboard/add/add.component";
+import { CityComponent } from "./dashboard/details/city/city.component";
+import { GraphComponent } from './dashboard/details/graph/graph.component';
+import { DetailsComponent } from './dashboard/details/details.component';
+import { DataResolver } from './app.resolver';
 
 const appRoutes: Routes = [
     {
@@ -26,28 +24,46 @@ const appRoutes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
         canActivate: [AuthGuard],
+        resolve: {
+            userdata: DataResolver
+        },
         children: [
             {
                 path: '',
                 component: OverviewComponent,
+                resolve: {
+                    userdata: DataResolver
+                },
             },
             {
-                path: 'new',
-                component: ConfigComponent,
+                path: 'add',
+                component: AddComponent,
+                resolve: {
+                    userdata: DataResolver
+                },
             },
-          {
-            path: 'add',
-            component: AddComponent,
-          },
-        ]
-    },
-    {
-        path: 'city',
-        component: CityComponent
+            {
+                path: 'details/:location',
+                component: DetailsComponent,
+                resolve: {
+                    userdata: DataResolver
+                },
+                children: [
+                    {
+                        path: '',
+                        component: CityComponent
+                    },
+                    {
+                        path: 'graph',
+                        component: GraphComponent,
+                    },
+                ],
+            },
+        ],
     },
     {
         path: '**',
-        component: PageNotFoundComponent
+        component: PageNotFoundComponent,
     },
 ];
 
@@ -57,7 +73,7 @@ export const routedComponents = [
     PageNotFoundComponent,
     DashboardComponent,
     OverviewComponent,
-    ConfigComponent,
     AddComponent,
-    CityComponent
+    GraphComponent,
+    CityComponent,
 ];

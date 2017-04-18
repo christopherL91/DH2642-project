@@ -1,10 +1,12 @@
+<div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: true, delay: 200, minDuration: 600}"></div>
 <div class="dashboard-container">
   <div class="dashboard-section">
-    <h1>Honest Weather - Dashboard</h1>
-    <button md-raised-button routerLink=".">Bookmarked Cities</button>
-    <button md-raised-button routerLink="new">Set location</button>
     <router-outlet></router-outlet>
   </div>
 </div>
-
-<a (click)="logout()" href="#" class="logout-btn">Get me the fuck out of here</a>
+<a
+  href=""
+  (click)="logout()" 
+  class="logout-btn">
+  Get me the fuck out of here
+</a>

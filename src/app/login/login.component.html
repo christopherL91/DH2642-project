@@ -1,8 +1,10 @@
+<div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: true, delay: 200, minDuration: 600}"></div>
 <div class="login-container">
   <div class="login-section">
     <h1>Honest Weather</h1>
     <button md-raised-button (click)="login()">
-      <span class="fa fa-2x fa-google"></span>Login Via Google
+      <span class="fa fa-2x fa-google"></span>
+      Login Via Google
     </button>
   </div>
 </div>

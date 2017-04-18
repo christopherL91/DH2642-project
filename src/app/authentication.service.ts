@@ -1,31 +1,59 @@
 import { Injectable } from '@angular/core';
-import { AngularFire, AuthProviders, AngularFireAuth, AngularFireDatabase } from 'angularfire2';
+import { 
+  AngularFire,
+  AngularFireAuth, 
+  AngularFireDatabase, 
+  FirebaseAuthState,
+  FirebaseObjectObservable, 
+} from 'angularfire2';
+import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthenticationService {
-  public userService: AngularFireAuth;
-  public databaseService: AngularFireDatabase;
 
-  constructor(private af: AngularFire, private router: Router) {
-    this.userService = af.auth;
-    this.databaseService = af.database;
-  }
+  constructor(private af: AngularFire, private router: Router) {}
 
-  login() {
-    return this.userService.login().then((data) => {
-      return this.databaseService.object(`/users/${data.auth.uid}`).set({
-        name: data.auth.displayName,
-        photo: data.auth.photoURL,
-      }).then(() => {
-        return this.router.navigate(['/dashboard']);
-      });
+  public login() {
+    return this.af.auth.login()
+      .then((user: FirebaseAuthState) => {
+        return this.af.database.object(`/users/${user.auth.uid}`)
+          .update({
+            name: user.auth.displayName,
+            photo: user.auth.photoURL,
+          })
+          .then(() => user);
+    })
+    .then((user: FirebaseAuthState) => {
+      console.log(user);
+      return this.router.navigate(['/dashboard']);
+    })
+    .catch((error: Error) => {
+      console.error(error);
     });
   }
 
-  logout() {
-    return this.userService.logout().then(() => {
-      return this.router.navigate(['']);
-    })
+  public logout(): Promise<Boolean> {
+    return this.af.auth.logout().then(() => {
+      return this.router.navigate(['/login']);
+    });
+  }
+
+  public getUser(): Observable<FirebaseObjectObservable<any>> {
+    return this.af.auth.asObservable()
+      .first()
+      .map((authState: FirebaseAuthState) => {
+        if(Boolean(authState)) {
+          return this.af.database.object(`/users/${authState.auth.uid}`);
+        } else {
+          return Observable.empty();
+        }
+      })
+      .share();
+  }
+
+  public isAuthenticated(): Observable<Boolean> {
+    return this.getUser()
+      .map((authState) => Boolean(authState));
   }
 }

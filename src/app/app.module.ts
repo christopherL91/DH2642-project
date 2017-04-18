@@ -1,12 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
-import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
-import { Router } from '@angular/router';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { 
+  AngularFireModule,
+  AuthProviders,
+  AuthMethods,
+} from 'angularfire2';
+import { BusyModule } from 'angular2-busy';
 
-import {AppComponent} from './app.component';
+import { AppComponent } from './app.component';
 
 // Services
 import { AuthenticationService } from './authentication.service';
@@ -15,9 +21,11 @@ import { WeatherService } from './weather.service';
 import { UserdataService } from './userdata.service';
 import { AuthGuard } from './auth.guard';
 
-import {routing, routedComponents} from './app.routes';
-import { AddComponent } from './dashboard/add/add.component';
-import { CityComponent } from './city/city.component';
+import { routing, routedComponents } from './app.routes';
+
+import { DataResolver } from './app.resolver';
+import { KeysPipe } from './keys.pipe';
+import { DetailsComponent } from './dashboard/details/details.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCtgHfPbBh37bGoUIJoUHAVJhwaVLd4TNc',
@@ -31,13 +39,17 @@ const firebaseConfig = {
   declarations: [
     AppComponent,
     routedComponents,
-    AddComponent,
-    CityComponent,
+    KeysPipe,
+    DetailsComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ChartsModule,
     MaterialModule,
     FormsModule,
+    BusyModule,
+    ReactiveFormsModule,
     HttpModule,
     routing,
     AngularFireModule.initializeApp(firebaseConfig, {
@@ -51,14 +63,8 @@ const firebaseConfig = {
     GeolocationService,
     WeatherService,
     AuthGuard,
+    DataResolver,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-
-  constructor(private router: Router) {
-    router.events.subscribe(
-      path => console.log('ROUTER CHANGE', path),
-    );
-  }
-}
+export class AppModule {}

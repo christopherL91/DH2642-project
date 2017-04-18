@@ -1,5 +1,7 @@
 import { Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import { FirebaseObjectObservable } from 'angularfire2';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-overview',
@@ -8,18 +10,34 @@ import {Observable} from 'rxjs';
 })
 export class OverviewComponent implements OnInit {
 
-  constructor() {
+  private item: FirebaseObjectObservable<any>;
+  private sub: Subscription;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.sub = this.route
+      .data
+      .take(1)
+      .subscribe(
+        (item: any) => {
+          this.item = item.userdata;
+        },
+        (error: Error) => {
+          console.error(error);
+        },
+      );
   }
 
-  ngOnInit() {}
-
-  // Removes the city
-  remove() {
-
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
-  // Redirects to the city screen
-  open() {
-
+  // Removes the location
+  private remove(location: string): firebase.Promise<any> {
+    return this.item
+      .$ref
+      .child(`locations/${location}`)
+      .remove();
   }
 }
