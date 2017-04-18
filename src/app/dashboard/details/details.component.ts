@@ -17,7 +17,7 @@ export class DetailsComponent implements OnInit {
 
   constructor(
     private user: UserdataService,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private weather: WeatherService,
     private router: Router) {}
 
