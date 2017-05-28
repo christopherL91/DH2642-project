@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col-sm-offset-3 col-sm-6">
       <div *ngFor="let entry of (item | async)?.locations | keys" class="weather-card" routerLink="details/{{entry.key}}">
-        <h2>{{entry.key}}</h2>
+        <h2>{{ entry.key.split('-').join(' ') }}</h2>
         <a (click)="remove(entry.key)" class="removecity">
           <span class="fa fa-times fa-2x"></span>
         </a>
