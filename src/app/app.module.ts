@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragulaModule } from 'ng2-dragula';
+
 import {
   AngularFireModule,
   AuthProviders,
@@ -49,6 +51,7 @@ const firebaseConfig = {
     MaterialModule,
     FormsModule,
     BusyModule,
+    DragulaModule,
     ReactiveFormsModule,
     HttpModule,
     routing,

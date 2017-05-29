@@ -6,11 +6,11 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-offset-3 col-sm-6">
-      <div *ngFor="let entry of (item | async)?.locations | keys" class="weather-card" routerLink="details/{{entry.key}}">
+    <div class="col-sm-offset-3 col-sm-6 locationcontainer" [dragula]='"locationdrag"'>
+      <div *ngFor="let entry of (item | async)?.locations | keys" class="weather-card weather-card" data-id="{{ entry.key }}" routerLink="details/{{entry.key}}">
         <h2>{{ entry.key.split('-').join(' ') }}</h2>
-        <a (click)="remove(entry.key)" class="removecity">
-          <span class="fa fa-times fa-2x"></span>
+        <a (click)="remove(entry.key)" class="favoritecity">
+          <i class="fa fa-star fa-2x" aria-hidden="true"></i>
         </a>
       </div>
     </div>
